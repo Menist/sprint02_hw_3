@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react'
+import React, {ChangeEvent, Dispatch, KeyboardEvent, SetStateAction, useState} from 'react'
 import Greeting from './Greeting'
 import {UserType} from './HW3'
 
@@ -7,7 +7,7 @@ type GreetingContainerPropsType = {
     addUserCallback: (name: string) => void
 }
 
-export const pureAddUser = (name: string, setName: React.Dispatch<React.SetStateAction<string>>, addUserCallback: (name: string) => void, setError: (error:string) => void) => {
+export const pureAddUser = (name: string, setName: Dispatch<SetStateAction<string>>, addUserCallback: (name: string) => void, setError: (error: string) => void) => {
     if (name.trim() === '') {
         setError('Ошибка! Введите имя!')
     } else {
@@ -43,6 +43,7 @@ const GreetingContainer: React.FC<GreetingContainerPropsType> =
             setName(e.currentTarget.value) // need to fix
             error && setError('')
         }
+
         const addUser = () => {
             pureAddUser(name, setName, addUserCallback, setError)
         }
@@ -56,7 +57,7 @@ const GreetingContainer: React.FC<GreetingContainerPropsType> =
         }
 
         const totalUsers = users.length // need to fix
-        const lastUserName = users.map(elem => elem.name)
+        const lastUserName = users[users.length - 1]?.name ?? ''
 
         return (
             <Greeting
